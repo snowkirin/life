@@ -1,15 +1,14 @@
 <template lang="html">
-  <GridLayout rows="auto, *"
-              class="nt-drawer__content">
-    <StackLayout row="0"
-                 class="nt-drawer__header">
-      <Label text="Header"/>
-    </StackLayout>
-
-    <ScrollView row="1"
+  <GridLayout rows="*"
+              class="nt-drawer__content"
+              backgroundColor="#222222"
+  >
+    <ScrollView row="0"
                 class="nt-drawer__body">
       <StackLayout>
-        <Label text="HIHIHIHI!!!!!!!!!!!"/>
+        <GridLayout v-for="(item, idx) in category" :key="idx">
+          <Label :text="item.name" style="color: #fff;" />
+        </GridLayout>
       </StackLayout>
     </ScrollView>
   </GridLayout>
@@ -17,19 +16,27 @@
 
 <script>
   import * as utils from "~/shared/utils";
-
+  import {mapActions, mapGetters} from 'vuex';
   export default {
-    mounted() {
-    },
     data() {
-      return {
-        selectedPage: ""
-      };
+      return {};
     },
     components: {},
+    computed: {
+      ...mapGetters([
+        'category',
+        'creativeType'
+      ]),
+    },
     methods: {
+      ...mapActions([
+        'fetchLib'
+      ]),
       onNavigationItemTap(component) {
         utils.closeDrawer();
+      },
+      consoleTap() {
+        console.log('HIHIHIHIHI')
       }
     }
   };
