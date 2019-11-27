@@ -10,5 +10,6 @@ export const SET_SEARCH_WORD = 'setSearchWord';
 export const SET_SCROLLY = 'setScrollY';
 export const SET_SCROLL_DIRECTION = 'setScrollDirection';
 export const SET_FILTER_SHOW = 'setFilterShow';
-export const SET_FILTER_LIST_CATEGORY = 'setFilterListCategory';
-export const SET_FILTER_LIST_CREATIVETYPE = 'setFilterListCreativeType';
+
+export const SET_FILTER_LIST = 'setFilterList';
+export const SET_FILTER_LIST_WITH_COUNT = 'setFilterListWithCount';

@@ -9,8 +9,8 @@ import {
     SET_SCROLLY,
     SET_SCROLL_DIRECTION,
     SET_FILTER_SHOW,
-    SET_FILTER_LIST_CATEGORY,
-    SET_FILTER_LIST_CREATIVETYPE
+    SET_FILTER_LIST,
+    SET_FILTER_LIST_WITH_COUNT
 } from './mutations.type';
 
 const state = {
@@ -39,7 +39,11 @@ const state = {
     checkScrollY: 0,
     checkScrollDirection: '',
 
-    filterList: {
+    filterListNoCount: {
+        category: [],
+        creativeType: []
+    },
+    filterListWithCount: {
         category: [],
         creativeType: []
     },
@@ -55,12 +59,39 @@ const getters = {
     checkScrollY: state => state.checkScrollY,
     checkScrollDirection: state => state.checkScrollDirection,
     isFilterShow: state => state.isFilterShow,
-    category: state => state.filterList.category,
-    creativeType: state => state.filterList.creativeType
+    filterListNoCount: state => state.filterListNoCount,
+    filterListWithCount: state => state.filterListWithCount
 };
 
 const actions = {
-    fetchType(context, type) {
+    async fetchFilterList(context) {
+        const getFilterList = (param) => {
+            return Http.get(`/code/${param}`)
+        };
+        let creativeType = await getFilterList('T');
+        let category = await getFilterList('C');
+
+        let result = {
+            category: category.data,
+            creativeType: creativeType.data
+        };
+        context.commit(SET_FILTER_LIST, result);
+    },
+    async fetchFilterListWithCount(context) {
+        const getFilterList = (param) => {
+            return Http.get(`/code/count/${param}`)
+        };
+        let creativeType = await getFilterList('T');
+        let category = await getFilterList('C');
+
+        let result = {
+            category: category.data,
+            creativeType: creativeType.data
+        };
+        context.commit(SET_FILTER_LIST_WITH_COUNT, result);
+    },
+
+    /*fetchType(context, type) {
         return new Promise(resolve => {
             Http.get(`/code/${type}`)
                 .then(({data}) => {
@@ -83,7 +114,8 @@ const actions = {
                     console.log(response);
                 });
         });
-    },
+    },*/
+
     fetchLib(context, isFirst = false) {
         // 필수값
         let listSize = `?listSize=${state.initData.listSize}`;
@@ -167,12 +199,13 @@ const mutations = {
     [SET_FILTER_SHOW](state, payload) {
         state.isFilterShow = payload;
     },
-    [SET_FILTER_LIST_CATEGORY](state, payload) {
-        state.filterList.category = payload;
+    [SET_FILTER_LIST](state, payload) {
+        state.filterListNoCount = payload;
     },
-    [SET_FILTER_LIST_CREATIVETYPE](state, payload) {
-        state.filterList.creativeType = payload;
+    [SET_FILTER_LIST_WITH_COUNT](state, payload) {
+        state.filterListWithCount = payload;
     }
+
 };
 
 export default {

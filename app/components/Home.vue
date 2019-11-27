@@ -90,7 +90,8 @@
         'fetchLib',
         'fetchTypeCount',
         'fetchType',
-        'setSearchWord'
+        'setSearchWord',
+        'fetchFilterListWithCount'
       ]),
       onSearch() {
         this.searching = !this.searching;
@@ -104,8 +105,7 @@
 
       init() {
         this.fetchLib(true);
-        this.fetchTypeCount('C');
-        this.fetchType('T');
+        this.fetchFilterListWithCount();
       },
 
       onDrawerButtonTap() {
